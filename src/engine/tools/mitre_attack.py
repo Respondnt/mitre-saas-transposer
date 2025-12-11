@@ -1,11 +1,25 @@
+import os
+import tempfile
+
+import requests
 from agents import function_tool
 from mitreattack.stix20 import MitreAttackData
 
 from engine.models.attack_paths import MitreTechnique
 
-MITRE_DATA_CACHE = MitreAttackData(
-    stix_filepath="/Users/wesleyhamburger/github/respondnt-engine/engine/enterprise-attack.json"
-)
+# Download MITRE ATT&CK data to a temporary folder
+MITRE_DATA_URL = "https://raw.githubusercontent.com/mitre/cti/master/enterprise-attack/enterprise-attack.json"
+_temp_dir = tempfile.mkdtemp(prefix="mitre_attack_")
+_mitre_file_path = os.path.join(_temp_dir, "enterprise-attack.json")
+
+# Download the file if it doesn't exist
+if not os.path.exists(_mitre_file_path):
+    response = requests.get(MITRE_DATA_URL, timeout=30)
+    response.raise_for_status()
+    with open(_mitre_file_path, "wb") as f:
+        f.write(response.content)
+
+MITRE_DATA_CACHE = MitreAttackData(stix_filepath=_mitre_file_path)
 
 
 @function_tool
