@@ -56,17 +56,17 @@ class ComprehensiveAnalysisResults(BaseModel):
     impact: ImpactExplorerOutput
 
 
-async def run_analysis(objective: str | None = None):
+async def run_analysis(
+    app_urls: list[str],
+    relevant_sitemap_urls: list[str] | None = None,
+    objective: str | None = None,
+):
     if os.getenv("OPENAI_API_KEY") is None:
         raise ValueError("OPENAI_API_KEY is not set")
 
     app_breakdown = await run_app_breakdown(
-        [
-            "https://github.com/",
-            "https://docs.github.com/en",
-            "https://docs.github.com/en/rest",
-        ],
-        relevant_sitemap_urls=[],
+        app_urls=app_urls,
+        relevant_sitemap_urls=relevant_sitemap_urls,
     )
     (
         initial_access_result,
