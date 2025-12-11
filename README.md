@@ -2,6 +2,22 @@
 
 A security analysis tool that automatically analyzes SaaS applications and generates comprehensive attack paths mapped to the MITRE ATT&CK framework. This tool uses AI agents to crawl application documentation, identify capabilities, and explore potential attack vectors across all MITRE ATT&CK tactics.
 
+## Why
+
+In a few of my previous roles we had to deeply threat-model SaaS apps we depended on — mapping how they work, where they can be abused, what telemetry they emit, and what detection coverage realistically looks like.
+
+Anyone who’s done this knows it’s tedious and fragmented:
+	•	Reading every docs page
+	•	Enumerating functionality and admin surfaces
+	•	Mapping those behaviours to MITRE ATT&CK
+	•	Manually deriving initial access vectors and misuse paths
+	•	Identifying where detection is/ isn’t possible
+
+Every team does this from scratch, and it burns an insane amount of analyst time.
+
+I wanted to see if I could automate the synthesis, not the judgement — i.e., have an agent greedily explore a SaaS app’s documentation and output a structured capability map + aligned MITRE techniques.
+
+
 ## Overview
 
 MITRE SaaS Transposer performs automated threat modeling for SaaS applications by:
